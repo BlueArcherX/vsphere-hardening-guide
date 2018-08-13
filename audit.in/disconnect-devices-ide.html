@@ -1,0 +1,31 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check disconnect-devices-ide
+</H4><p>
+Besides disabling unnecessary virtual devices from within the virtual machine, you should 
+ensure that no device is connected to a virtual machine if it is not required to be there. 
+For example, serial and parallel ports are rarely used for virtual machines in a datacenter 
+environment, and CD/DVD drives are usually connected only temporarily during software 
+installation. For less commonly used devices that are not required, either the parameter 
+should not be present or its value must be FALSE.  NOTE: The parameters listed are not 
+sufficient to ensure that a device is usable; other parameters are required to indicate 
+specifically how each device is instantiated.  Any enabled or connected device represents 
+another potential attack channel.
+</p>
+For this reason, disabling unused devices is recommended.  This is done by verifying this VMX setting for the affected VM:
+<b><br>
+	ideX:Y.present=FALSE
+</b></p>
+<b><u>Audit Check:</b></u>
+<pre>
+vmrun -T esx -h https://&LThost ip&GT/sdk -u &LTuserid&GT -p &LTpassword&GT readvariable &LTpath to vmx file&GT runtimeConfig ideX:Y.present
+(note that this can only check running VMs, use vmware-cmd for dormant hosts)
+
+PowerCLI:
+$result = $vm | Get-CDDrive
+$result.ConnectionState
+
+"TRUE" results are NonCompliant
+"FALSE" or empty results are Compliant
+</pre>
+<b><u>Audit Results:</b></u>
+<p>

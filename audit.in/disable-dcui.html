@@ -1,0 +1,22 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check HCN05 - Disable DCUI 
+</H4><p>
+In addition to enabling Lockdown mode, the DCUI (the local console menu in ESXi) can be disabled.  Once done, the host is only managable via 
+vCenter.  If vCenter suffers a catastrophic failure of some kind, the ESXi host must be re-installed to regain access.
+</p>
+To disable the DCUI in the vSphere Client, navigate to the configuration tab for a host, then to the security profile setting, select Properties
+for Services, highlight DCUI and click Options. The pop-up window will allow you to enable and disable the DCUI service.
+
+</p>
+<b><u>Audit Check:</b></u></p><pre>
+In PowerCLI:
+      $esxh | Get-VMHostService | Where { $_.key -eq "DCUI" }
+<b>Manual Check:</b><br> In the vSphere Client, navigate to the configuration tab for a host, then to the <b>Security Profile</b> setting, select 
+<b>Properties</b> for Services, highlight <b>DCUI</b> and click <b>Options.</b>
+
+<b><u>Audit Results:</u></b>
+
+
+Manual Check: ____________________________
+</p></pre>
+

@@ -1,0 +1,18 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check VMP05 - Minimize the use of VM Console Operations 
+</H4><p>
+While the vSphere client is the most convenient administration interface for the virtual 
+infrastructure, if what is required is the keyboard and screen of a Guest VM, using the 
+vSphere client gives quite a bit more access than is required.  The vCenter / vSphere 
+client interface controls all facets of the virtual machine, including the virtual 
+hardware and BIOS, as well as interfaces to the underlying network and storage.  
+</p
+A much better approach is to use the traditional remote access tools that would be 
+used for a physical host.  That is to say, SSH for Linux hosts, and most likely RDP 
+for Windows hosts.  Not only is the security exposure limited, but the screen and 
+keyboard performance is generally better.
+</p>
+<b><u>Audit Check:</b></u></p>
+Unfortunately, a policy of using vCenter or the vSphere client only when required is 
+not an easy one to audit.  At best it’s a manual assessment of work habits.
+

@@ -1,0 +1,25 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check config-snmp 
+</H4><p>
+SNMP is one of the basic protocols used in performance management, allowing centralized collection of performance data, analagous to the central
+logging function that syslog uses.
+</p>
+SNMP versions 1 and 2 (2 or 2c is the most commonly used version of SNMP) are clear text protocols.  SNMP version 3 introduced encryption, but
+is not widely deployed.
+</p>
+In a virtual infrastructure, if SNMP is not used for performance management, then SNMP should be disabled on each ESX host.  
+</p>
+If it is required, however, it should:<pre>
+	- Have a complex string (“public” and “private” should not be used)
+	- Be read only (unless read/write is required)
+	- Have a protected path between the management inteface of the ESX host and the NMS (Network Management System) that is sending / receiving
+          SNMP messages.</pre>
+
+<b><u>Audit Check:</b></u><pre>
+	vicfg-snmp.pl --server &LTserver ip&GT --username &LTusername&GT --password &LTpassword&GT --show
+In PowerCLI:
+        $esxcli = get-esxcli -vmhost $esxh
+        $result = $esxcli.system.snmp.get()
+</pre>
+<b><u>Audit Results:</b></u>
+<pre>

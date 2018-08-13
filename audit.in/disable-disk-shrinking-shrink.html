@@ -1,0 +1,24 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check disable-disk-shrinking-shrink - Prevent Virtual Disk Shrinking
+</H4><p>
+The Disk Wiping operation can be executed by a user within a guest VM, by using the commands within the VMware Tools application.  
+While this can be useful in shrinking a VM's Virtual Disk, it is a CPU intensive operation that can affect not only the intended VM, 
+but all VMs on the host platform.   For this reason, disabling this feature is recommended.  This is done by adding 
+this line to the VMX file for the affected VM:<br>
+
+	<b>isolation.tools.diskShrink=TRUE</b>
+<p>
+<pre><b><u>Audit Check:</b></u>
+
+    vmrun -T esx -h https://&LThost ip&GT/sdk -u &LTuserid&GT -p &LTpassword&GT readvariable &LTpath to vmx file&GT runtimeConfig isolation.tools.diskShrink
+    (note that this can only check running VMs, use vmware-cmd for dormant hosts)
+
+In PowerCLI:
+    $vm | Get-AdvancedSetting -Name  "isolation.tools.diskshrink.disable"
+
+"TRUE" results are Compliant
+"FALSE" or empty results are Non-compliant
+
+</pre>
+<b><u>Audit Results:</b></u><p>
+

@@ -1,0 +1,22 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check apply-patches 
+</H4><p>
+Just like traditional platforms and operating systems, ESX, ESXi and vCenter hosts all need timely updates and patches.  
+VMware has a quick patch cycle, but it’s still important to patch as soon as patches are available, or shortly thereafter.  
+This is simplified with the use of VMware vCenter Update Manager (VUM), which from a single platform can patch multiple platforms.
+</p>
+<b><u>Audit Check:</b></u></p><pre>
+	For version 4.x:
+		vihostupdate.pl –server &LTip address&GT --username &LTusername&GT --password &LTpassword&GT --query
+	For version 5.x:
+		esxcli -s &LTserver&GT -u &LTusername&GT -p &LTpassword&GT software vib list
+        In PowerCLI (5.x or newer):
+                $esxcli = $esxh | Get-EsxCli
+                $patches = $esxcli.software.vib.list() | Select-Object @{N="VMHostName"; E={$VMHostName}}, *
+
+This is a manual assessment, based on the patch information collected below.  Patch dates can be used to assess against an organisation's policy.
+
+</pre>
+<b><u>Audit Results:</b></u></p>
+<pre>
+

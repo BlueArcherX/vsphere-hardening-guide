@@ -1,0 +1,20 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check HCN06 - Disable Tech Support Mode 
+</H4><p>
+Tech Support mode is DISABLED by default.  Enabling this mode allows Local and/or SSH access to the host, using root credentials.
+</p>
+<b><u>Audit Check:</b></u></p>
+<b>Manual Check</p></b>
+On the DCUI of a host, in the <b>Troubleshooting Options</b> menu, check the state (enable or disable - default disabled)
+</p><pre>
+In PowerCLI:
+    $esxh | Get-VMHostService | where  { $_.key -eq "TSM" } | Select VMHost, Key, Label, Policy, Running, Required
+
+Manual Check:
+With the vSphere Client, on the <b>Configuration</b> tab for a host in the <b>Security Profiles</b> section, check the state - enable or disable (default disabled)
+
+<b><u>Audit Results:</u></b>
+
+
+Manual Check: ___________________________
+</pre></p>

@@ -1,0 +1,28 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check isolate-storage-network-vlan  
+</H4><p>
+Ensure that IP-based storage traffic is isolated. 
+Virtual machines might share virtual switches and VLANs with the IP-based storage 
+configurations. IP-based storage includes iSCSI and NFS.  This type of configuration might 
+expose IP-based storage traffic to unauthorized virtual machine users. IP-based storage 
+frequently is not encrypted. It can be viewed by anyone with access to this network. To 
+restrict unauthorized users from viewing the IP-based storage traffic, the IP-based storage 
+network should be logically separated from the production traffic. Configuring the IP-based 
+storage adaptors on separate VLANs or network segments from the VMkernel management and 
+service console network will limit unauthorized users from viewing the traffic.
+</p>
+Storage port groups should be in a dedicated VLAN on a common vSwitch. The vSwitch can be 
+shared with production (virtual machine) traffic, as long as the storage port group’s 
+VLAN is not used by production virtual machines. Check for usage of the VLAN ID on non-storage 
+port groups. Check that the VLAN is isolated and not routed in the physical network.
+</p>
+<b><u>Audit Check:</b></u></p>
+<pre>
+To check IP Addressing on iSCSI adapters
+vicfg-iscsi –server &LTip address&GT --username &LTusername&GT --password &LTpassword&GT -N -l &LTadapter_name&GT
+
+To check network addressing:
+vicfg-iscsi –server &LTip address&GT --username &LTusername&GT --password &LTpassword&GT --target --list &LTadapter_name&GT
+</pre>
+<b><u>Audit Results:</b></u></p>
+

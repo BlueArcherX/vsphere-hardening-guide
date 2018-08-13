@@ -1,0 +1,31 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check isolate-vmotion-network-vlan
+</H4><p>
+
+Ensure that vMotion traffic is isolated.
+</p>
+The security issue with vMotion migrations is that information is transmitted in plain text, 
+and anyone with access to the network over which this information flows can view it. Potential 
+attackers can intercept vMotion traffic to obtain memory contents of a virtual machine. 
+They might also potentially stage a MiTM attack in which the contents are modified during 
+migration. Ensure that vMotion traffic is separate from production traffic on an isolated 
+network. This network should be nonroutable (no layer-3 router spanning this and other 
+networks), which will prevent any outside access to the network.
+</p>
+The vMotion port group should be in a dedicated VLAN on a common vSwitch. The vSwitch can be 
+shared with production (virtual machine) traffic, as long as the vMotion port group’s VLAN 
+is not used by production virtual machines.  Check for usage of the VLAN ID on non-vMotion 
+port groups. Check that the VLAN is isolated and not routed in the physical network.
+<b><u>Audit Check input:</b></u><pre>
+To list all relevant vSwitch info  (note that this command is wrapped)
+     esxcli.exe --server &LTserver ip address&GT --username &LTusername&GT --password &LTpassword&GT network vswitch standard list | 
+             find /v " Ports:" | find /v "MTU:" | find /v "CDP " | find /v "Beacon "
+To list all vmknic info:
+     vicfg-vmknic.pl --server &LTserver ip address&GT --username &LTusername&GT --password &LTpassword&GT --list
+</pre>
+This will list much of the switch information needed for this benchmark.</br>
+Manually check this information for vMotion netowrk information, and verify it against the 
+physical switch and VLAN infrastructure.
+
+</p>
+<b><u>Audit Results:</b></u>

@@ -1,0 +1,21 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check label-portgroups
+</H4><p>
+Naming VLANs and Portgroups with meaningful names is an important step in creating an 
+infrastructure.  It makes troubleshooting much simpler, and makes the infrastructure to 
+some extent “self documenting” and easier to administer.  It is generally desired that 
+VLAN names within a virtual infrastructure should follow the same naming convention as 
+in the physical environment, and in fact should be identical for matching VLANs.
+
+</p>
+<b><u>Audit Check:</b></u><pre>
+	vicfg-vswitch.pl --server &LTserver ip address&GT --username &LTusername&GT --password &LTpassword&GT -l
+
+or
+	esxcli &LTconnection information&GT network vswitch standard list
+or
+        Get-VirtualPortGroup
+
+</pre></p>
+<b><u>Audit Results:</b></u>
+<pre>

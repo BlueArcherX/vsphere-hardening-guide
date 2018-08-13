@@ -1,0 +1,20 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check enable-remote-dump
+</H4><p>
+Configure a centralized location to collect ESXi host core dumps using the "ESXi Dump Collector"	
+
+When a host crashes, an analysis of the resulting core dump can be helpful in determining the cause of the crash 
+and in working with VMware support to resolve the issue.
+Using a centralized dump collector helps ensure that core dump files are available for support situations of this type.
+
+
+<b><u>Audit Check:</b></u><pre>
+	In vCLI:
+		esxcli system coredump network get
+        In PowerCLI:
+                $esxcli = Get-EsxCli -VMHost $VMHost
+                $esxcli.system.coredump.network.get()
+
+</pre>
+<b><u>Audit Results:</b></u>
+<pre>

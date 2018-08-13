@@ -1,0 +1,24 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check disable-ssh
+</H4><p>
+SSH is DISABLED by default.  Enabling this access allows remote SSH access to the host, using root credentials.
+</p>
+<b><u>Audit Check:</b></u></p>
+<pre>
+<b>In PowerCLI;</b>
+     $esxh | Get-VMHostService | Where { $_.key -eq "TSM-SSH" } | Select VMHost, Key, Label, Policy, Running, Required
+
+<b>Manual Check</p></b>
+On the DCUI of a host, in the <b>Troubleshooting Options</b> menu, check the state (enable or disable - 
+default disabled)
+</p>
+With the vSphere Client, on the <b>Configuration</b> tab for a host in the <b>Security Profiles</b> 
+section, check the state - enable or disable (default disabled)
+
+or:
+nmap -p 22 --open 
+
+</p></pre>
+<b><u>Audit Results:</u></b>
+</p>
+

@@ -1,0 +1,23 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check limit-administrator-scope
+</H4><p>
+Ensure that only authorized administrators have access to virtual networking components.
+This control mitigates the risk of misconfiguration, whether accidental or malicious, and 
+enforces key security concepts of separation of duties and least privilege. It is important 
+to leverage the role-based access controls within vSphere to ensure that only authorized 
+administrators have access to the different virtual networking components. For example, 
+VM administrators should have access only to port groups in which their VMs reside. 
+Network administrators should have permissions to all virtual networking components but 
+not have access to VMs. These controls will depend very much on the organization's policy 
+on separation of duties, least privilege, and the responsibilities of the administrators 
+within the organization.
+<p>
+<b><u>Audit Check:</b></u></p>
+This is a manual check - Ensure that vSphere permissions to specific port groups are granted 
+only to those individuals who need it. 
+<p>
+1. Log into the vCenter Server using the vSphere Client as a user with full 
+Administrator Role rights to the Inventory object you are checking. </br>
+2. Select "[Inventory Object] > Permissions". </p>
+Verify that the users assigned to this Inventory object have the appropriate Role.
+</p>

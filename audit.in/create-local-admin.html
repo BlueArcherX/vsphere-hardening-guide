@@ -1,0 +1,20 @@
+<H4><p style="background-color: #C0C0C0;">
+Create-local-admin
+</H4><p>
+By default each ESXi host has a single "root" admin account that is used for local administration and to connect the host to vCenter Server. 
+
+Sharing a common administrative account across multiple administrators results in a violation of the principal of "non-repudiation".  The recommendation is that on each host, at least one named user account should be created, with full admin privileges assigned to it.  Named accounts should be used instead of the default "root" account.
+
+Set a highly complex password for the "root" account and secure it in a safe location.  Limit the use of "root" but do not remove the "root" account. 
+
+</p>
+<b><u>Audit Check:</b></u><pre>
+
+in PowerCLI:
+      get-viaccount -server $esxh.name
+
+<b>NOTE: This check only works when run directly against an ESXi host (not against a vCenter host)</b>
+
+</pre>
+<b><u>Audit Results:</b></u>
+<pre>

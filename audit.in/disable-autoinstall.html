@@ -1,0 +1,25 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check disable-autoinstall - Disable VMware Tools Auto-Install 
+</H4><p>
+VMware Tools auto install can initiate an automatic reboot, disabling this option will
+prevent tools from being installed automatically and prevent automatic machine reboots.
+<p>
+It is also desirable from a security perspective to test updates before deploying in a 
+production VM.
+<p>
+The affected VMX settings are:
+<b></br>
+	Isolation.tools.autoinstall.disable=TRUE
+</b><p>
+
+<b><u>Audit Check:</b></u><pre>
+    vmrun -T esx -h https://&LThost ip&GT/sdk -u &LTuserid&GT -p &LTpassword&GT readvariable &LTpath to vmx file&GT Isolation.tools.autoInstall.disable
+    (note that this method can only check running VMs, use vmware-cmd for dormant hosts)
+
+In PowerCLI:
+    $vm | Get-AdvancedSetting -Name  "isolation.tools.autoInstall.disable"
+
+A returned value of "TRUE" or blank indicates Compliance, "False" indicates non-compliance
+</pre>
+<b><u>Audit Results:</b></u>
+<p>

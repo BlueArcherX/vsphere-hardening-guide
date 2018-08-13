@@ -1,0 +1,34 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check limit-user-login
+</H4><p>
+Because of the power available within the vCenter interface, it’s a good idea to log its 
+use, to ensure that only valid personnel are accessing it and at the correct times.  
+It’s also good to track failed attempts to login, which might catch penetration attempts 
+and attacks.
+
+</p>
+To audit login events (to verify good behaviour or bad), a good starting point is to audit 
+the following Windows Events:
+</p>
+<b>Event ID  675</b> – incorrect password<br>
+<b>Event ID  676</b> – failed login attempt for reasons other than incorrect password (mistyped username, account locked etc)<br>
+<b>Event ID  680</b> - Successful login <br>
+<b>Event ID 4624</b> - Successful login<br>
+<b>Event ID 4672</b> - Special Privileges Assigned<br>
+<b>Event ID 4625</b> - Failed Login Attempt
+</p>
+These events also log the station that originated the request 
+</p>
+<b><u>Audit Check:</b></u></p>
+While these events can be parsed using WMIC NTEVENT, this method is very CPU intensive
+</p>
+PSLOGLIST (part of the Microsoft Systinternal Suite) gives us a much better approach to this.  To extract occurrences of these three events for instance, 
+you might use a command string like:
+<pre>
+	psloglist \\&LTVCENTERSERVERNAME&GT -u &LTuserid&GT -p &LTpassword&GT –s –I 676,675,680,4624,4776,4648,4672,4625 Security
+
+or, in PowerShell:
+    Get-WinEvent -computername $h -credential $vicreds -FilterHashtable @{logname='security';id = 4672,4625,4648,4776,4624,680,675,676} -ErrorAction SilentlyContinue -maxevents 25
+
+</pre>
+<b><u>Audit Results:</b></u><p>

@@ -1,0 +1,30 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check disable-intervm-vmci
+</H4><p>
+VMCI (Virtual Machine Communication Interface) is out of band “network style” sockets communications interface ,allowing VM to VM, and VM to 
+Host communications with no network interface and no authentication or authorization required..
+</p>
+This is fully documented in http://www.vmware.com/pdf/ws8_esx5_vmci_sockets.pdf
+</p>
+By default VMCI is enabled (it’s part of VMware Tools), and by default it is restricted such that communications are only to trusted Host 
+processes.  VM to VM communications is not enabled by default.  This means that when auditing with a script, the successful audit will return 
+an error message “The specified property or variable is invalid or undefined.” – in other words, if the setting is not defined, then it is at 
+the default setting and is correct.  .  To disable this function, set the following parameter in the VMX file of the affected VM:
+<b><br>
+    VMCI.unrestricted=FALSE
+</b></p>
+<b><u>Audit Check:</b></u>
+<pre>
+    vmrun -T esx -h https://&LThost ip&GT/sdk -u &LTuserid&GT -p &LTpassword&GT readvariable &LTpath to vmx file&GT Vmci0.unrestricted
+    (note that this can only check running VMs, use vmware-cmd for dormant hosts)
+
+PowerCLI:
+
+    $vm | Get-AdvancedSetting -Name  "vmci0.unrestricted"
+
+
+"FALSE" results are Compliant
+"TRUE" or empty results are Non-compliant
+</pre>
+<b><u>Audit Results:</b></u>
+<p>

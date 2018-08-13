@@ -1,0 +1,23 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check disable-datastore-browser
+</H4><p>
+The vSphere Datastore Browser allows browsing of the VMFS filesystems via a web browser.<p>
+This allows reconnaissance of all Virtual Machine files (vmx, vmdk files, etc)<p>
+It also allows for upload / download of VM files<p>
+Especially in a DMZ situation, the Datastore Browser should be disabled<p>
+<b><u>Audit Check:</b></u><pre>
+psexec \\&LTvcenter ip&gt -u &ltuserid&gt -p &ltpassword&gt cmd /c (cd "c:\programdata\vmware\vmware virtualcenter\") & (powershell -Command "[xml]$vpxd = Get-Content vpxd.cfg" ; "write-Host $vpxd.config.enableHttpDatastoreAccess")
+
+or, in PowerShell:
+
+    $uri = "https://" + $vc.name + "/folder"
+    $result = invoke-webrequest $uri -credential $vicreds
+
+    $compliance = $compliant
+
+    if (($result.statuscode -eq 200) -or ($result.statucode -eq 401)) {
+       $Compliance = $notcompliant
+       }
+
+</pre>
+<b><u>Audit Results:</b></u></p>

@@ -1,0 +1,19 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check limit-cim-access
+</H4><p>
+The CIM API interface allows access to lower level, hardware components in the system.  Because of this low-level access, it’s recommended that
+an account with restricted access be created for CIM access (any local account has CIM access)
+</p>
+<b><u>Audit Check:</b></u></p>
+For a manual assessment of user privileges, based on CIM management requirements
+</p>
+If CIM write access is required, 2 rights are required:</p>
+<b>Host / Config / SystemManagement</b> , and  <b>Host / CIM / CIMInteraction</b></p>
+<pre>
+In Powershell:
+    get-vmhostaccount -server $esxh.name
+
+<b>NOTE: This check only works when run directly against an ESXi host (not against a vCenter host)</b>
+
+</pre>
+Audit Results ________________________

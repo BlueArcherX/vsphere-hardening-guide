@@ -1,0 +1,35 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check block-unused-ports
+</H4><p>
+Block access to ports not being used by vCenter.
+<p>
+Blocking unneeded ports can militate against general attacks on the Windows system.  
+A local firewall on the Windows system of vCenter, or a network firewall, can be used to 
+block access to ports not specifically being used by vCenter. Here is a partial list of 
+examples of where ports might be blocked: (636/TCP) If the vCenter will not be part of 
+a linked-mode vCenter group; (1521/TCP) If the vCenter DB is not Oracle. 
+<p>
+<b><u>Audit Check:</b></u>
+Verify that unused network protocol/port pairs are blocked to/from the vCenter Server. 
+A list of ports used by vCenter can be found in this VMware Knowledge Base article: </p>
+http://kb.vmware.com/kb/1012382 </p>
+Make sure not to block any ports for functionality that is actually in use in your environment. 
+nmap can be used as a starting point in assessing this benchmark.
+<pre></p>
+	psexec \\&LTvcenter ip&GT -u &LTusername&GT -p &LTpassword&GT netsh advfirewall show allprofiles
+	psexec \\&LTvcenter ip&GT -u &LTusername&GT -p &LTpassword&GT netsh advfirewall show config
+	psexec \\&LTvcenter ip&GT -u &LTusername&GT -p &LTpassword&GT netsh advfirewall show logging
+
+or, in PowerCLI:
+    $fw=New-object –comObject HNetCfg.FwPolicy2
+    $fwprofiles = @(1,2,4) | select @{Name=“Network Type”     ;expression={$fwProfileTypes[$_]}},
+                   @{Name=“Firewall Enabled” ;expression={$fw.FireWallEnabled($_)}},
+                   @{Name=“Block All Inbound”;expression={$fw.BlockAllInboundTraffic($_)}},
+                   @{name=“Default In”       ;expression={$FwAction[$fw.DefaultInboundAction($_)]}},
+                   @{Name=“Default Out”      ;expression={$FwAction[$fw.DefaultOutboundAction($_)]}}
+    $fwrules = $fw.rules | select name, desc, service, localports, remoteports, direction, enabled, action
+
+
+</pre>
+<b><u>Audit Results:</b></u>
+<pre>

@@ -1,0 +1,20 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check enable-remote-syslog
+</H4><p>
+Remote logging (via syslog in this case) is a security measure that is recommended for almost any sensitive platform.  Not only does it ensure 
+that local logs do not fill local storage, it allows combining logs from multiple sources, allowing event analysis that would otherwise not be
+possible.  Just as importantly, if the ESX host is compromised, logging to a remote location ensures that a record of the compromise is stored
+in at least one other location, hopefully one that the attacker has not compromised.  As a final note, remote logging is a requirement in almost
+all regulatory frameworks.
+<p>
+<b><u>Audit Check:</b></u><pre>
+	For ESX4:
+		vicfg-syslog –server &LThost ip&GT --user &LTuserid&GT --password &LTpassword&GT  --show
+	For ESX5:
+		Esxcli --server &LThostip&GT --username &LTuser&GT --password &LTpassword&GT system syslog config get
+        PowerCLI:
+                $esxh | Get-AdvancedSetting -Name Syslog.global.logHost
+
+</pre>
+<b><u>Audit Results:</b></u>
+<pre>

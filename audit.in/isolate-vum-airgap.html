@@ -1,0 +1,21 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check isolate-vum-airgap 
+</H4><p>
+Limit the connectivity between Update Manager and public patch repositories.
+<p>
+In a typical deployment, Update Manager connects to public patch repositories on the 
+Internet to download patches. This connection should be limited as much as possible to 
+prevent access from the outside to the Update Manager system. Any channel to the Internet 
+represents a threat.
+
+</p>
+<b><u>Audit Check:</b></u>
+<pre>
+This is a manual assessment
+
+Verify Update Manager is configured to use the Download Service. Verify  that there 
+are enforced policies in place to use physical media to transfer update files to 
+the Update Manager server (air-gap model). Ensure that the Download Service is functioning 
+and that the Update Manager server does not obtain patches directly from the Internet.
+
+</pre>

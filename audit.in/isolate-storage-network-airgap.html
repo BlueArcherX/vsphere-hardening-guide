@@ -1,0 +1,45 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check isolate-storage-network-airgap  
+</H4><p>
+Ensure that IP-based storage traffic is isolated.</p>
+Virtual machines might share virtual switches and VLANs with the IP-based storage 
+configurations. IP-based storage includes iSCSI and NFS.  This type of configuration 
+might expose IP-based storage traffic to unauthorized virtual machine users. IP-based 
+storage frequently is not encrypted. It can be viewed by anyone with access to this 
+network. To restrict unauthorized users from viewing the IP-based storage traffic, 
+the IP-based storage network should be logically separated from the production traffic. 
+Configuring the IP-based storage adaptors on separate VLANs or network segments from 
+the VMkernel management and service console network will limit unauthorized users 
+from viewing the traffic.
+</p>
+Storage port groups should be on a management-only vSwitch. Doing so avoids dependency 
+on VLANs for isolation, which might be appropriate for certain environments. Check that 
+the vMotion port group vSwitch does not contain any nonmanagement port groups. Check 
+that the physical network is not accessed by any other nonmanagement entity. Check that 
+the storage port group vSwitch does not contain any nonmanagement port groups. Check 
+that the physical network is not accessed by any other nonmanagement entity.
+</p>
+The configuration of the iSCSI storage adapters can be used to assist in this assessment, using 
+the commands:
+<pre>
+To check IP Addressing on iSCSI adapters
+vicfg-iscsi –server &LTip address&GT --username &LTusername&GT --password &LTpassword&GT -N -l &LTadapter_name&GT
+
+To check network addressing:
+vicfg-iscsi –server &LTip address&GT --username &LTusername&GT --password &LTpassword&GT --target --list &LTadapter_name&GT
+
+
+To check iSCSI Target Properties:
+"%CLIPATH%\vicfg-iscsi.pl" --server %1 --username %2 --password %3 --target --list %4
+</pre>
+<b><u>Audit Check:</b></u></p>
+<pre>
+esxcli.exe --server <server ip address> --username <username> --password <password> network vswitch standard list
+
+Will list all vSwitches, a manual assessment should be made to ensure that the vmKernel operations such as vMotion are isolated within the Virtual 
+Infrastructure.  In addition, this assessment should be extended to the physical network, ensuring that the VLAN used is used only for these 
+operations, and is isolated within the environment.  It’s important that if traffic of this type is routed at layer 3 over the network (for 
+instance, through a WAN to another site), that the entire path is secured against eavesdropping.
+</pre>
+<b><u>Audit Results:</b></u></p>
+

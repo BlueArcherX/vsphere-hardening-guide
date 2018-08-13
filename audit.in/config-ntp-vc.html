@@ -1,0 +1,15 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check config-ntp 
+</H4><p>
+Accurate time in an organization is critical – it allows correlation of events between disparate hosts, accurate scheduling of events, and is
+the basis for many facets of system administration.  In most cases systems run on UTC time, then have their timezone set with an offset.  This
+allows events to be correlated simply, even if the target hosts are in different timezones.
+</p>
+<b><u>Audit Check:</b></u><pre>
+$rcmd1 = "w32tm /query /computer:" + $h + " /status"
+$rcmd2 = "w32tm /query /computer:"+$h+" /configuration"
+(for a Windows vCenter host)
+
+</pre>
+<b><u>Audit Results:</b></u>
+<pre>

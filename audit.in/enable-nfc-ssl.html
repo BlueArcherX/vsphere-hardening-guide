@@ -1,0 +1,20 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check enable-nfc-ssl 
+</H4><p>
+On the face of it, enabling SSL for vMotion and other host copy operations would be considered 
+desirable, but this recommendation has a few issues.  First of all, encrypting large volumes 
+of data can take a measurable amount of CPU resources.  More importantly, this feature is not 
+yet fully tested by VMware.  Since copies of this type are only supposed to happen over the 
+management network, this measure is only recommended in special circumstances.  This setting 
+is controlled by the "usessl" parameter in vCenter's VPXD.CFG, which is an XML formated 
+configuration file.
+</p>
+Powershell provides a native method of extracting XML information out VPXD.CFG.  PSTools 
+provides a method of executing the required powershell command on the remote host (reference 
+http://isc.sans.edu/diary.html?storyid=11992 for a more complete explanation of this operation)
+</p>
+<b><u>Audit Check:</b></u><pre>
+psexec \\&LTvcenter host&GT -u &LTUsername&GT -p &LTPassword&GT  powershell -Command "[xml]$vpxd = Get-Content %ALLUSERPROFILE%\Application Data\VMware\VMware VirtualCenter\vpxd.cfg" ; "write-Host $vpxd.config.useSSL"
+</pre>
+<b><u>Audit Results:<b></u>
+</pre>

@@ -1,0 +1,16 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check label-vswitches
+</H4><p>
+Similar to naming VLANs, naming vSwitches with meaningful names is an important step in creating an infrastructure.  It makes troubleshooting much 
+simpler, and makes the infrastructure to some extent “self documenting” and easier to administer.  Where possible, the naming of virtual switches 
+should match the same naming convention as is established for switches in the physical infrastructure.
+
+</p>
+<b><u>Audit Check:</b></u><pre>
+	vicfg-vswitch.pl --server &LTserver ip address&GT --username &LTusername&GT --password &LTpassword&GT -l
+or
+	esxcli &LTconnection information&GT network vswitch standard list
+or
+        Get-VirtualSwitch
+</pre>
+<b><u>Audit Results:</b></u><p>

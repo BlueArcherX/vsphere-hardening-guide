@@ -1,0 +1,16 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check disable-stp
+</H4><p>
+All hosts and networks are defined internally on a VMware host (in the associated VMX files), so ESX (or ESXi) will only read network frames
+that are destined for VMs on the host, or any of the management or VMKernel functions on the host.  Because of this, any frame that is 
+accepted inbound on one port will never “find it’s way” back out a different port.  This has a few advantages – not only does it restrict 
+the traffic on the vSwitch to frames which actually belong on that switch, it removes the need for Spanning Tree entirely, since the concept 
+of a network loop is no longer in play.  This considerably 
+reduces the attack surface on the vSphere virtual network infrastructure.
+
+<b><u>Audit Check:</b></u></p>
+This is in the end a <b>manual check</b> - On all connected physical switches, login and ensure that Spanning Tree is disabled on physical
+ports connected to the virtual infrastructure, or that Spanning Tree “portfast” is configured on those ports.  In many infrastructures 
+this step can be scripted, but the scripts involved will target the physical infrastructure, not the virtual infrastructure.
+
+</p>

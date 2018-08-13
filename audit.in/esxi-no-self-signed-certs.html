@@ -1,0 +1,53 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check VSC01 - vCenter Self Signed Certificates
+</H4><p>
+The use of self signed certificates removes the element of trust from the initial handshake in an SSL transaction.  In the case of a vCenter login, 
+the use of a self signed certificate makes mounting a Man in the Middle attack on the vCenter session much simpler.
+</p>
+
+<b><u>Audit Check:</b></u></p>
+Using PSEXEC and CERTUTIL:<pre><br>
+	psexec \\&LTvcenter ip&GT -u &LTusername&GT -p &LTpassword&GT  
+        certutil -dump "%allusersprofile%\vmware\vmware virtualcenter\SSL\rui.crt" | find "O=" 
+
+Using OPENSSL has some advantages here – the main one being that it does not require credentials:
+
+	openssl s_client -connect &LTvcenter ip&GT:443 &LT QUIT.in | find "O=" 
+
+<b>In PowerCLI:</b>
+function ChkCert
+   {
+   Param ([string]$ip,[int]$Port)
+   $ip
+   $port
+
+   $TCPClient = New-Object -TypeName System.Net.Sockets.TCPClient
+   try {
+      $TcpSocket = New-Object Net.Sockets.TcpClient($ip,$port)
+      $tcpstream = $TcpSocket.GetStream()
+      $Callback = {param($sender,$cert,$chain,$errors) return $true}
+      $SSLStream = New-Object -TypeName System.Net.Security.SSLStream -ArgumentList @($tcpstream, $True, $Callback)
+      try {
+         $SSLStream.AuthenticateAsClient($ip)
+         $Certificate = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2($SSLStream.RemoteCertificate)
+         } 
+      finally {
+         $SSLStream.Dispose()
+         }
+      }
+      finally {
+         $TCPClient.Dispose()
+         }
+      return $Certificate
+   }
+
+
+$h = $esxh.name
+$p = 443
+$cert = ChkCert -ip $h -port $p
+
+</pre>
+In all cases, we are looking for the who issued the Certificate.  If "VMware" issued the certificate, then it is self-signed.
+</p>
+<b><u>Audit Results:</b></u></p>
+<pre>

@@ -1,0 +1,22 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check enable-lockdown-mode 
+</H4><p>
+Lockdown mode is available on any ESXi host that is managed by a vCenter Server.  Enabling lockdown mode disables all remote access to ESXi hosts, 
+except for vCenter and vCLI management. Any subsequent local changes to the host must be made:
+</p>
+Lockdown mode can be enabled or disabled in two places:</p>
+• In the vSphere Client, when connected to the VMware vCenter Server managing the host</br>
+• In the DCUI of the host</br>
+</p>
+<b><u>Audit Check:</b></u></p>
+To check this manually, in the vSphere Client navigate to the configuration tab of the target host host.  
+In the <b>security profile setting</b>, select <b>Lockdown Mode, Edit</b>, and verify that the <b>checkbox for Lockdown Mode is set.</b>
+<pre>
+In PowerCLI:
+     $result =  $esxh  | Select Name,@{N="Lockdown";E={$_.Extensiondata.Config.adminDisabled}}
+</pre><p>
+<b><u>Audit Results:</u></b>
+<p>
+
+Manual Check: ___________________________
+</p>

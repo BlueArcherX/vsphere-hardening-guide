@@ -1,0 +1,43 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check VSH02 - vCenter Host Patching 
+</H4><p>
+Patching is a reality in every IT department in every organization.  Patches are required to fix problems, to remediate security vulnerabilties, 
+and in some cases to enable new OS or application features.  For this reason, “timely” application of vendor patches is a strong recommendation 
+in almost every security audit document.  
+</p>
+The conventional wisdom has been that “timely” application of patches includes a testing phase, but unfortunately, lack of resources is a common 
+thread in many IT departments.  In particular, testing of patches and updates is often not possible.  Even if resources are available, management 
+will often take the approach that the vendor is best equipped to test patches.
+Unfortunately, it is a periodic reality that sometimes a “bad” patch or update will slip through. Something in your environment that wasn’t tested 
+for, or something that just slipped through the vendor’s process.  It is for this reason that image backups are recommended for critical components.  
+For the rare case when a patch taks a service offline, an image restore is much less painless than installing the OS, then the application(s), then 
+restoring the data.
+</p>
+Luckily, virtual infrastructure lends itself to image backups.  Many organizations simply standardize on this method for all virtual servers.
+</p>
+
+<b><u>Audit Check:</b></u>
+<pre>
+	wmic /node:&LTvcenter address&GT /user:&LTusername&GT /password:&LTpassword&GT qfe list full /format:htable > vcenter_hotfixes.htm
+	wmic /node:&LTvcenter address&GT /user:&LTusername&GT /password:&LTpassword&GT /output: OS-SP.HTML os get BuildType, Caption, OSArchitecture, Version,
+             ServicePackMajorVersion, ServicePackMinorVersion, TotalVisibleMemorySize /format:htable
+
+or, in PowerCLI:
+(compliance to a maximum 31 day patch window shown)
+
+$result = ( get-hotfix -computername $vc.name -credential $vicreds ) | select pscomputername, hotfixid, description, installedon
+$lastinstall = ($result | sort installedon)[$result.length-1].installedon
+
+$now = get-date
+$latestpatch = ([datetime]$now - [datetime]$lastinstall).days
+
+if ($latestpatch -lt 31) {
+   $compliance = $compliant
+   }
+   else {
+   $compliance = $notcompliant
+   } 
+
+</pre>
+<b><u>Audit Results:</b></u>
+<pre>

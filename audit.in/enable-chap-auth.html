@@ -1,0 +1,29 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check enable-chap-auth
+</H4><p>
+iSCSI storage solutions are becoming more and more popular, both for price and functional reasons.  Unfortunately, security 
+is not its strong suit.  As a minimum first step, CHAP authentication should be enabled for access.  CHAP is however still 
+vulnerable to Pass the Hash style attacks, where capturing the authentication hash is sufficient to successfully authenticate 
+at a later time.  Authentication aside, once authenticated iSCSI traffic is passed in clear text.
+<p>
+It goes without saying that running clear text traffic of this type over a general purpose network is not a good idea.
+For this reason, a dedicated, isolated, unrouted VLAN is often implemented for iSCSI storage traffic.
+<p>
+<b><u>Audit Check:</b></u>
+<pre>
+First, list all iSCSI Adapter names:
+    vicfg-iscsi.pl –server &LTip address&GT --username &LTusername&GT --password &LTpassword&GT --adapter –list
+ 
+To verify authentication, for each adapter:
+    vicfg-iscsi –server &LTip address&GT --username &LTusername&GT --password &LTpassword&GT --authentication --list &LTadapter_name&GT
+
+To check network addressing:
+    vicfg-iscsi –server &LTip address&GT --username &LTusername&GT --password &LTpassword&GT -N -l &LTadapter_name&GT
+
+Or, in PowerCLI:
+    $hbaresult =  $esxh | Get-VMHosthba
+    $iscsiresult = $esxh | Get-VMHostHba | Where {$_.Type -eq "Iscsi"} | Select VMHost, Device, ChapType, @{N="CHAPName";E={$_.AuthenticationProperties.ChapName}}
+</pre>
+<b><u>Audit Results:</b></u><br>
+(blank results indicate no iSCSI is configured)
+<pre>

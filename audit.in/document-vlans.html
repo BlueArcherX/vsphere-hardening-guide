@@ -1,0 +1,31 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check document-vlans
+</H4><p>
+As we should be aware by now, the end role of most Virtual Infrastructures is to eventually communicate with the connected physical network 
+and “real world” devices.  This means that all VLANs within an infrastructure should be documented, and periodically reviewed for congruence 
+with the VLAN configuration and documentation on adjacent switches and routers.
+
+
+</p>
+<b><u>Audit Check:</b></u></p>
+This is in the end a <b>manual check</b> - the documentation and the physical infrastructure must be reviewed to see that the documented vlans exist, and that the virtual and physical infrastructure matches, is accurate and complete. 
+ 
+However, these commands can be used as the basis for this documentation:</p>
+<pre>
+	vicfg-vswitch.pl --server &LTserver ip address&GT --username &LTusername&GT --password &LTpassword&GT -l
+or
+	esxcli &LTconnection information&GT network vswitch standard list
+or
+        Get-VirtualPortGroup -Standard | Select virtualSwitch, Name, VlanID
+
+Verify by using the vSphere Client to connect to the vCenter Server and as administrator: 
+1. Go to "Home > Inventory > Hosts and Clusters". 
+2. Select each ESXi host with virtual switches connected to active VM's requiring securing. 
+3. Go to  
+"Configuration > Network > vSwitch(?) > Properties > Ports > [?Portgroup Name?] > VLAN ID" 
+4. Verify and record VLAN ID's in a tracking system approved by your organization or 
+following industry best practices.
+</pre>
+<b><u>Audit Results:</b></u>
+</p>
+

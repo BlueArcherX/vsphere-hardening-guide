@@ -1,0 +1,26 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check config-firewall
+</H4><p>
+Unrestricted access to services running on an ESXi host can exposes a host to outside 
+attacks and unauthorized access.  Reduce the risk by configuring the ESXi firewall to 
+only allow access to permitted services from authorized networks.
+
+The firewall settings can be listed using the commands listed below.  
+These settings need to be assessed manually against the corporate policies for 
+authorization and access to each of the specific services.
+
+</p>
+<b><u>Audit Check:</b></u><pre>
+
+To list the overall Status of the Firewall Service:
+esxcli –s &LTserver ip&GT –u &LTusername&GT –p &LTpassword&GT network firewall get
+
+To list the basic Firewall Rules:
+esxcli –s &LTserver ip&GT –u &LTusername&GT –p &LTpassword&GT network firewall ruleset list
+
+To list the allowed IP addresses for each Firewall Rule:
+esxcli –s &LTserver ip&GT –u &LTusername&GT –p &LTpassword&GT network firewall ruleset allowedip list
+
+</pre>
+<b><u>Audit Results:</b></u>
+<pre>

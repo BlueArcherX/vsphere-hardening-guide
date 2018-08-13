@@ -1,0 +1,15 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check isolate-mgmt-network-airgap 
+</H4><p>
+The vSphere management network provides access to the vSphere management interface on 
+each component. Services running on the management interface provide an opportunity for 
+an attacker to gain privileged access to the systems. Any remote attack most likely would 
+begin with gaining entry to this network. 
+
+The vSphere management port group should be on a management-only vSwitch. Doing so avoids 
+dependency on VLANs for isolation, which might be appropriate for certain environments.  
+Check that the management-only vSwitch does not contain any nonmanagement port groups.
+
+</pre>
+<b><u>Audit Results:</b></u>
+This is a manual check, with a comparison against the physical Switch and VLAN infrastructure.

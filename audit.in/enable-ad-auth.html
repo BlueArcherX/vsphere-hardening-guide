@@ -1,0 +1,27 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check enable-ad-auth
+</H4><p>
+Use Active Directory for local user authentication. <p> 	
+
+Creating local user accounts on each host presents challenges with having to synchronize account names and 
+passwords across multiple hosts.  Join ESXi hosts to an Active Directory domain to eliminate the need to 
+create and maintain local user accounts. Using Active Directory for user authentication simplifies the ESXi 
+host configuration and reduces the risk for configuration issues that could lead to unauthorized access.  
+Note that when adding ESXi hosts to Active Directory, if the group "ESX Admins" exists, all user/group 
+accounts assigned to the group will have full administrative access to the host.  If full admin access 
+is not desired refer to http://kb.vmware.com/kb/1025569).
+<p>
+Refer to the vSphere Security Guide, chapter 4 page 65 for steps to add ESXi hosts to an Active Directory 
+domain.<br>  
+http://pubs.vmware.com/vsphere-50/topic/com.vmware.vsphere.security.doc_50/GUID-25A5EB3B-7BB1-4B0B-9323-926AE6F0667F.html
+<p>
+<b><u>Audit Check:</b></u><p><pre>
+To list the authentication method:
+     vicfg-authconfig.pl" --server &LTSERVERNAME&GT --username &LTUSERNAME&GT --password &LTPASSWORD&GT -a 
+In PowerCLI:
+     $esxh | Get-VMHostAuthentication | Select VmHost, Domain, DomainMembershipStatus
+</pre>
+<b><u>Audit Results:</b></u>
+<pre>
+
+

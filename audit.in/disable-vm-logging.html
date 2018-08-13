@@ -1,0 +1,24 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check VMX20 - Limit Local Logging
+</H4><p>
+By default, operations on a Guest Virtual Machine go into a series of log files in the same directory as the virtual machine’s VMX Configuration 
+file.  As with all local logs, a mechanism to limit total disk space is recommended – if these logs are permitted to grow without bound, then 
+over time they’ll fill up the filesystem, interfering with normal system operations such as snapshots (which of course require disk space), or 
+even interfering with powering on guest VMs.
+
+To limit the size and number of logs, the following VMX parameters are recommended:
+<b>
+	Log.rotateSize=1000000
+	Log.keepOld=10</b>
+
+
+<b><u>Audit Check:</b></u>
+vmrun -T esx -h https://&LThost ip&GT/sdk -u &LTuserid&GT -p &LTpassword&GT readvariable &LTpath to vmx file&GT runtimeConfig Log.rotateSize
+vmrun -T esx -h https://&LThost ip&GT/sdk -u &LTuserid&GT -p &LTpassword&GT readvariable &LTpath to vmx file&GT runtimeConfig Log.keepOld
+(note that this can only check running VMs, use vmware-cmd for dormant hosts)
+
+Log.rotateSize=1000000 is Compliant, other values or -1 is Non-Compliant
+Log.keepOld=10 is Compliant, other Values, Blank or -1 is non-Compliant
+
+<b><u>Audit Results:</b></u>
+

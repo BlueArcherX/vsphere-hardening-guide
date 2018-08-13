@@ -1,0 +1,28 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check disable-mob
+</H4><p>
+The Managed Object Browser (MOB) can be used to explore the object model used by vCenter to manage the vSphere environment.
+This can also be subverted to make configuration changes directly
+</p>
+Especially in a DMZ setting, this should be disabled
+</p>
+<b><u>Audit Check:</b></u><pre>
+
+psexec \\&LTvcenter ip&gt -u &ltuserid&gt -p &ltpassword&gt cmd /c (cd "c:\programdata\vmware\vmware virtualcenter\") & `
+      (powershell -Command "[xml]$vpxd = Get-Content vpxd.cfg" ; "write-Host $vpxd.config.enableDebugBrowse")
+
+or
+Browse to https://&LTvcenter ip&GT/mob
+
+or in PowerShell:
+    $uri = "https://" + $vc.name + "/mob"
+    $result = invoke-webrequest $uri -credential $vicreds
+
+    $compliance = $compliant
+
+    if (($result.statuscode -eq 200) -or ($result.statucode -eq 401)) {
+       $Compliance = $notcompliant
+       }
+
+</pre>
+<b><u>Audit Results:</b></u></p>

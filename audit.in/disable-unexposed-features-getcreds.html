@@ -1,0 +1,28 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check disable-unexposed-features-getcreds 
+</H4><p>
+Because VMware virtual machines are designed to work on both vSphere as well as hosted 
+virtualization platforms such as Workstation and Fusion, there are some VMX parameters 
+that don’t apply when running on vSphere.  Although the functionality governed by these 
+parameters is not exposed on ESX, explicitly disabling them will reduce the potential for 
+vulnerabilities.  Disabling these features reduces the number of vectors through which 
+a guest can attempt to influence the host, and thus may help prevent successful exploits.
+</p>
+The affected VMX setting is:
+</br>
+<b>
+	isolation.tools.getCreds.disable=TRUE
+</b>
+</p>
+<b><u>Audit Check:</b></u></p>
+<pre>
+vmrun -T esx -h https://&LThost ip&GT/sdk -u &LTuserid&GT -p &LTpassword&GT readvariable &LTpath to vmx file&GT  isolation.tools.getCreds.disable
+(note that this can only check running VMs, use vmware-cmd for dormant hosts)
+
+PowerCLI:
+    $vm | Get-AdvancedSetting -Name  "isolation.tools.getCreds.disable" 
+
+A value of "TRUE" indicates Compliance, "False" or blank indicates non-compliance
+</pre>
+<b><u>Audit Results:</b></u>
+<p>

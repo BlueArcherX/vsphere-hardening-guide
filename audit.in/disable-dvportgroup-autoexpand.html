@@ -1,0 +1,44 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check disable-dvportgroup-autoexpand
+</H4><p>
+If the "no-unused-dvports" guideline is followed, there should be only the amount of ports 
+on a VDS as are actually needed. The Autoexpand feature on VDS dvPortgroups can override 
+that limit. The feature allows dvPortgroups to automatically add 10 virtual distributed 
+switch ports to a dvPortgroup that has run out of available ports. The risk is that 
+maliciously or inadvertently, a virtual machine that is not supposed to be part of that 
+portgroup is able to affect confidentiality, integrity or authenticity of data of other 
+virtual machines on that portgroup. To reduce the risk of inappropriate dvPortgroup access, 
+the autoexpand option on VDS should be disabled. By default the option is disabled, but 
+regular monitoring should be implemented to verify this has not been changed.
+<p>
+<b><u>Audit Check:</b></u>
+<p><pre>
+As this guideline is used in conjunction with no-unused-dvports, there should be no extra 
+ports available on all VDS dvPortgroups.  
+1. Monitor when port count is automatically increased by email or an SNMP trap.  
+a. At the distributed portgroup level, click on the “Alarms” tab of the portgroup and create 
+a new alarm. 
+b. Under the “Event”, add a new trigger called “dvPort group reconfigured”. 
+c. Click on "Advanced Conditions" and select “configSpec.autoExpand” and set the “equal to” 
+to “true”. 
+
+2. At an interval suitable to your organization policies or industry best practices, verify 
+that another virtual machine cannot be attached to each vSwitch and dvPortgroup in question. 
+You should get an error indicating no free ports are available.
+
+3. Regularly audit alerts or manually audit this setting, at a frequency acceptable to your 
+organization's published guidelines or industry standards.
+</pre>
+<b><u>Audit Check:</b></u><p><pre>
+
+$result = Get-VirtualPortGroup -Distributed -server $vc
+$result | add-member –membertype NoteProperty –name Compliance –Value $compliant ;
+
+foreach ($dPG in $result) {
+  if($dPG.extensiondata.config.autoexpand) {
+      $dPG.Compliance = $notcompliant
+  }
+}
+</pre></p>
+<b><u>Audit Results:</b></u></p>
+</p>

@@ -1,0 +1,55 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check document-pvlans
+</H4><p>
+Ensure that all dvSwitches' Private VLAN ID's are fully documented	
+</p>
+dvSwitch Private VLANs (PVLANs) require primary and secondary VLAN ID's. These need to 
+correspond to the ID's on external PVLAN-aware upstream switches if any. If VLAN ID's are 
+not tracked completely, mistaken re-use of ID's could allow for traffic to be allowed 
+between inappropriate physical and virtual machines. Similarly, wrong or missing PVLAN 
+ID's may lead to traffic not passing between appropriate physical and virtual machines.	
+</p>
+<b><u>Audit Results:</u></b></p>
+<b>Audit Results for the document-vlans check is identical to that for the document-vlans-vds check (below)</b>
+</p>
+<H4><p style="background-color: #C0C0C0;">
+Audit Check document-vlans-vds
+</H4><p>
+As we should be aware by now, the end role of most Virtual Infrastructures is to eventually communicate with the connected physical network 
+and “real world” devices.  This means that all VLANs within an infrastructure should be documented, and periodically reviewed for congruence 
+with the VLAN configuration and documentation on adjacent switches and routers.
+
+
+<p><b><u>Audit Check:</b></u></p>
+From the vSphere Client log into vCS. Home > Inventory > Networking. 
+Select dvSwitch and Edit Settings. Verify and record PVLAN labels.
+<p>
+or
+<pre>
+$dPortGroups = Get-VirtualPortGroup -Distributed -server $vc
+
+# List all dvSwitches and their Portgroups, VLAN Type and Ids
+Foreach ($dPG in $dPortGroups) {
+ Switch ((($dPG.ExtensionData.Config.DefaultPortConfig.Vlan).GetType()).Name) {
+  VMwareDistributedVirtualSwitchPvlanSpec { 
+   $Type = "Private VLAN"
+   $VLAN = $dPG.ExtensionData.Config.DefaultPortConfig.Vlan.pVlanID 
+  }
+  VMwareDistributedVirtualSwitchTrunkVlanSpec { 
+   $Type = "VLAN Trunk"
+   $VLAN = ($dPG.ExtensionData.Config.DefaultPortConfig.Vlan.VlanID | Select Start, End)
+  } 
+  VMwareDistributedVirtualSwitchVlanIdSpec { 
+   $Type = "VLAN"
+   $VLAN = $dPG.ExtensionData.Config.DefaultPortConfig.Vlan.vlanID
+  }
+  default {
+   $Type = (($dPG.ExtensionData.Config.DefaultPortConfig.Vlan).GetType()).Name
+   $VLAN = "Unknown"
+  }
+ }
+ $result = $dpg | Select virtualSwitch, Name, @{N="Type";E={$Type}}, @{N="VLanId";E={$VLAN}}
+}
+</pre>
+
+</p>

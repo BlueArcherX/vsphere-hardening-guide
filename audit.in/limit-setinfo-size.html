@@ -1,0 +1,28 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check limit-setinfo-size
+</H4><p>
+VMware has the ability to add custom “name = value” variables into the VMX Configuration files 
+of the individual Guest Virtual Machines.  By default, the limit on this is 1MB, which makes 
+for an extremely large configuration file.  An indirect DOS attack could be mounted, increasing 
+all the VMX files by this maximum value, which would dramatically increase the startup time for 
+each guest.
+</p>
+To limit the amount of custom information, the following VMX parameters are recommended:
+(this is the default value, a smaller value is generally recommended, to be determined by the 
+policy and requirements of individual VMs):
+<b></br>
+	Tools.setInfo.sizeLimit=1048567
+</b></p>
+<b><u>Audit Check:</b></u>
+<pre>
+vmrun -T esx -h https://&LThost ip&GT/sdk -u &LTuserid&GT -p &LTpassword&GT readvariable &LTpath to vmx file&GT Tools.setInfo.sizeLimit
+(note that this can only check running VMs, use vmware-cmd for dormant hosts)
+
+PowerCLI:
+    $vm | Get-AdvancedSetting -Name  "tools.setInfo.sizeLimit"
+
+Tools.setInfo.sizeLimit=1048567 is Compliant, other values or -1 (blank) is Non-Compliant
+This value will of course vary from organisation to organisation.
+</pre>
+<b><u>Audit Results:</b></u>
+<p>

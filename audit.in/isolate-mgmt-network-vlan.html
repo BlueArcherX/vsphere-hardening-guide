@@ -1,0 +1,16 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check isolate-mgmt-network-vlan
+</H4><p>
+
+The vSphere management port group should be in a dedicated VLAN on a common vSwitch. 
+The vSwitch can be shared with production (virtual machine) traffic, as long as the 
+vSphere management port group’s VLAN is not used by production virtual machines. Check 
+that the network segment is not routed, except possibly to networks where other 
+management-related entities are found. In particular, make sure that production 
+virtual machine traffic cannot be routed to this network.
+
+</p>
+<b><u>Audit Check:</b></u><pre>
+This is a manual check, in conjunction with a check on the physical switch and vlan infrastructure
+</pre>
+

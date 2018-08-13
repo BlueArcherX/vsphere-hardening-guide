@@ -1,0 +1,27 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check disable-monitor-control
+</H4><p>
+When Virtual Machines are running on a hypervisor they are "aware" that they are running in a 
+virtual environment and this and this information is available to tools inside the guest OS.  
+This can give attackers information about the platform that they are running on that they 
+may not get from a normal physical server.  This option completely disables all hooks for a 
+virtual machine and the guest OS will not be aware that it is running in a virtual environment
+at all.
+</p>
+To disable this function, set the following parameter in the VMX file of the affected VM:
+<b></br>
+	 isolation.monitor.control.disable=TRUE
+</b></p>
+<b><u>Audit Check:</b></u>
+<pre>
+    vmrun -T esx -h https://&LThost ip&GT/sdk -u &LTuserid&GT -p &LTpassword&GT readvariable &LTpath to vmx file&GT  isolation.monitor.control.disable
+(note that this can only check running VMs, use vmware-cmd for dormant hosts)
+
+PowerCLI:
+    $vm | Get-AdvancedSetting -Name  "isolation.monitor.control.disable" 
+
+"TRUE" results are Compliant
+"FALSE" or empty results are Non-compliant
+</pre>
+<b><u>Audit Results:</b></u>
+<p>

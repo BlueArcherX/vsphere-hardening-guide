@@ -1,0 +1,23 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check disable-console-paste  
+</H4><p>
+Denial of Cut and Paste operations from within the vCenter or vSphere client console prevents
+exfiltration or infiltration of data by that avenue
+
+The affected VMX settings are:<br>
+<b>
+	Isolation.tools.paste.disable=TRUE
+</b>
+<p>
+<b><u>Audit Check:</b></u>
+<pre>
+
+    vmrun -T esx -h https://&LThost ip&GT/sdk -u &LTuserid&GT -p &LTpassword&GT readvariable &LTpath to vmx file&GT Isolation.tools.paste.disable
+    (note that this can only check running VMs, use vmware-cmd for dormant hosts)
+
+In PowerCLI:
+    $vm | Get-AdvancedSetting -Name "isolation.tools.paste.disable"
+
+A returned value of "TRUE" or blank indicates Compliance, "False" indicates non-compliance
+
+</pre><b><u>Audit Results:</b></u><p>

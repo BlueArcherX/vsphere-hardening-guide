@@ -1,0 +1,20 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check upstream-bpdu-stp
+</H4><p>Verify that for virtual machines that route or bridge traffic, spanning tree 
+protocol is enabled and BPDU guard and Portfast are disabled on the upstream physical 
+switch port.	In the scenario where the ESXi host has a guest VM that is configured to 
+perform bridging function, the VM will generate BPDU frames and send out to the VDS. 
+The VDS then forwards the BPDU frames through the network adapter to the physical switch 
+port. When the switch port configured with “BPDU guard” receives the BPDU frame, the 
+switch disables the port and the VM looses connectivity. To avoid this network failure 
+scenario while running software-bridging function on an ESXI host, customers should 
+disable the “portfast” and “BPDU guard” configuration on the port and run the spanning 
+tree protocol.
+
+
+<b><u>Audit Check:</b></u></p>
+This is a <b>manual check</b> - Routinely check that for virtual machines that perform 
+bridging or routing, the first upstream physical switch port is configured with BPDU Guard 
+and Portfast disabled and Spanning Tree Protocol enabled.
+
+</p>

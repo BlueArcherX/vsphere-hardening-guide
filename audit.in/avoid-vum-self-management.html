@@ -1,0 +1,18 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check avoid-vum-self-management
+</H4><p>
+Do not configure Update Manager to manage its own VM or the VM of its vCenter Server.  
+
+Although you can install both Update Manager and vCenter Server on VMs and place them 
+on the same ESXi host, you should not configure Update Manager to manage the updates 
+on those VMs. Upon scanning and remediation, the virtual machine on which Update Manager 
+and vCenter Server are installed can reboot and the whole deployment system will shut down.
+
+<b><u>Audit Check:</b></u>
+<pre>
+This is a manual assessment:<p>
+Verify that Update Manager does not manage the patching of the VM on which it runs, 
+nor the VM on which the associated vCenter Server runs.
+</pre>
+<b><u>Audit Results:</b></u>
+<pre>

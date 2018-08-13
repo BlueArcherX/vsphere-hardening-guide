@@ -1,0 +1,19 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check config-persistent-logs 
+</H4><p>
+<pre>
+Local logging within ESXi is only held for one day, and is not persistent across reboots.  This is further complicated by the fact that most of
+the local filesystem is non-persistent, the only persistent directory being /scratch.
+
+For this reason, if local logging is required within ESXi, it’s recommended to direct it to a NFS or VMFS volume.
+
+<b><u>Audit Check:</b></u>
+	For ESXi 4:
+		vicfg-syslog –server &LThost ip&GT --user &LTuserid&GT --password &LTpassword&GT  --show
+	For ESXi 5:
+		Esxcli --server &LThostip&GT --username &LTuser&GT --password &LTpassword&GT system syslog config get
+        In PowerCLI:
+                $esxhost | Get-AdvancedSetting Syslog.global.logDir
+
+<b><u>Audit Results:</b></u>
+

@@ -1,0 +1,47 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check VMP04 - Limit Resource Utilization of VMs 
+</H4><p>
+By default, all Guest Virtual Machines share resources equally on an ESX host.  This can be adjusted, giving some hosts more or less priority 
+with respect to others, by adjusting the value of each host’s CPU Shares or Memory Shares.
+</p>
+These can be checked via scripting, but there is no recommended values – decisions about resource allocation and limits are made within each 
+organization
+</p><pre>
+Settings to check:
+	CPU Resource limits:
+		sched.cpu.min =
+		sched.cpu.max = 
+		sched.cpu.units =
+		sched.cpu.shares = 
+		sched.cpu.affinity = 
+	Memory Resource Limits:
+		sched.mem.minsize = 
+		sched.mem.max = 
+		sched.mem.shares = 
+	Disk Resource Limits:
+		sched.scsi0:0.shares = 
+		sched.scsi0:0.throughputCap = 
+		(note that the designator for scsi0:0 will change on a per-disk basis)
+</pre>
+
+<b><u>Audit Check:</b></u><pre>
+	vmrun -T esx -h https://&LThost ip&GT/sdk -u &LTuserid&GT -p &LTpassword&GT readvariable &LTpath to vmx file&GT sched.cpu.min
+	vmrun -T esx -h https://&LThost ip&GT/sdk -u &LTuserid&GT -p &LTpassword&GT readvariable &LTpath to vmx file&GT sched.cpu.max
+	vmrun -T esx -h https://&LThost ip&GT/sdk -u &LTuserid&GT -p &LTpassword&GT readvariable &LTpath to vmx file&GT sched.cpu.shares
+	vmrun -T esx -h https://&LThost ip&GT/sdk -u &LTuserid&GT -p &LTpassword&GT readvariable &LTpath to vmx file&GT sched.cpu.affinity
+
+	vmrun -T esx -h https://&LThost ip&GT/sdk -u &LTuserid&GT -p &LTpassword&GT readvariable &LTpath to vmx file&GT sched.mem.minsize
+	vmrun -T esx -h https://&LThost ip&GT/sdk -u &LTuserid&GT -p &LTpassword&GT readvariable &LTpath to vmx file&GT sched.mem.max
+	vmrun -T esx -h https://&LThost ip&GT/sdk -u &LTuserid&GT -p &LTpassword&GT readvariable &LTpath to vmx file&GT sched.mem.shares
+
+	vmrun -T esx -h https://&LThost ip&GT/sdk -u &LTuserid&GT -p &LTpassword&GT readvariable &LTpath to vmx file&GT sched.scsi0:0.shares
+	vmrun -T esx -h https://&LThost ip&GT/sdk -u &LTuserid&GT -p &LTpassword&GT readvariable &LTpath to vmx file&GT sched. scsi0:0.throughputCap
+
+	(note that the vmware-cmd.pl option does not work reliably for these settings)
+
+In PowerCLI:
+         $vms | Get-VMResourceConfiguration 
+
+</pre>
+<b><u>Audit Results:</b></u>
+<p>

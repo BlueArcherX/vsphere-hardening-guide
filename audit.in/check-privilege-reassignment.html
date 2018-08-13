@@ -1,0 +1,19 @@
+<H4><p style="background-color: #C0C0C0;">
+Audit Check check-privilege-reassignment
+</H4><p>
+When VMware vCenter Server restarts, the log file should be scanned to ensure that no privileges were reassigned by the restart. 
+</p>
+To assess this, check the log vpxd.log after reboot of vCenter, looking for privilege reassignment.  
+</p>
+<b><u>Audit Check:</b></u>
+<pre>
+psexec \\&LTVCENTERSERVERNAME&GT -u &LTuserid&GT -p &LTpassword&GT type "%ALLUSERSPROFILE%\VMware\VMware VirtualCenter\Logs\vpxd.log" | find /i "assigned"
+(this assumes that vCenter is on a Windows Server 2008 Host)
+
+or in PowerCLI:
+    Get-VIPrivilege -server $vc | select server,name, privilegelist
+
+</pre>
+</p>
+<b><u>Audit Results:</b></u>
+<pre>
